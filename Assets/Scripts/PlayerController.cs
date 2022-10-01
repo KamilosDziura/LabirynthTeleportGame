@@ -7,6 +7,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float speed = 12f; 
     Vector3 velocity;
     CharacterController characterController;
+
+    public Transform groundCheck;
+    public LayerMask groundMask;
     // Start is called before the first frame update
     void Start()
     {
@@ -25,5 +28,23 @@ public class PlayerController : MonoBehaviour
         float z = Input.GetAxis("Vertical");
         Vector3 move = transform.right * x + transform.forward * z;
         characterController.Move(move * speed * Time.deltaTime);
+
+        string (terrainType);
+        RaycasHit hit; //zmienna w ktrej zapisywana jest referencja do uderzonego obiektu
+        if (Physics.Raycast(groundCheck.position, transform.TransfromDirection(Vector3.down), out hit, 0.4f, groundMask))
+        {
+            switch (terrainType)
+            {
+                default:
+                    speed = 12;
+                    break;
+                case "Low":
+                    speed = 3;
+                    break;
+                case "High":
+                    speed = 20;
+                    break;
+            }
+        }
     }
 }
